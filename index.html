@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Química II | Clase 11: Cinética Química</title>
+
+    <!-- Carga de MathJax -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [
+                    ['$', '$'],
+                    ['\\(', '\\)']
+                ],
+                displayMath: [
+                    ['$$', '$$'],
+                    ['\\[', '\\]']
+                ]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+    <style>
+        :root {
+            --QII-gold: #D97706;
+            --QII-dark: #022C22;
+            --QII-blue: #064E3B;
+            --QII-light: #10B981;
+            --accent: #DC2626;
+            --accent-orange: #F59E0B;
+            --accent-purple: #7C3AED;
+            --text: #111827;
+            --white: #ffffff;
+            --sand: #FEF3C7;
+            --shadow: rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul:not(.map-tree),
+        ol {
+            padding-left: 2.4rem;
+            margin: 0.5rem 0 1rem;
+        }
+
+        ul:not(.map-tree) {
+            list-style: none;
+        }
+
+        ul:not(.map-tree) li,
+        ol li {
+            margin: 0.45rem 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--QII-dark) 0%, var(--QII-blue) 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid var(--QII-gold);
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo-qii {
+            width: 120px;
+            height: auto;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: var(--QII-gold);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .nav-container {
+            background: var(--QII-dark);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px var(--shadow);
+            border-bottom: 2px solid var(--QII-gold);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-btn {
+            background: var(--QII-blue);
+            color: var(--white);
+            border: 1px solid var(--QII-gold);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            font-size: 0.95rem;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: var(--QII-gold);
+            color: var(--QII-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(234, 179, 8, 0.4);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px var(--shadow);
+            border-left: 6px solid var(--QII-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        h2 {
+            color: var(--QII-blue);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid var(--QII-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 2rem;
+        }
+
+        h3 {
+            color: var(--QII-light);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .molecule-img {
+            max-width: 100%;
+            max-height: 450px;
+            height: auto;
+            border-radius: 12px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 12px var(--shadow);
+            object-fit: contain;
+        }
+
+        .img-container {
+            text-align: center;
+            margin: 2rem 0;
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px dashed var(--QII-gold);
+        }
+
+        .img-caption {
+            font-style: italic;
+            color: #666;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .calculator {
+            background: linear-gradient(135deg, #fefcbf 0%, #fef3c7 100%);
+            border: 3px solid var(--QII-gold);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .calc-title {
+            color: var(--QII-dark);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: bold;
+        }
+
+        .calc-input-group {
+            margin: 1rem 0;
+        }
+
+        .calc-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--QII-dark);
+        }
+
+        .calc-input-group input,
+        .calc-input-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--QII-gold);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background: #fff;
+        }
+
+        .calc-input-group input:focus,
+        .calc-input-group select:focus {
+            outline: none;
+            border-color: var(--QII-blue);
+        }
+
+        .calc-button {
+            background: var(--QII-dark);
+            color: var(--QII-gold);
+            border: 2px solid var(--QII-gold);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .calc-button:hover {
+            background: var(--QII-gold);
+            color: var(--QII-dark);
+            transform: translateY(-2px);
+        }
+
+        .calc-result {
+            background: var(--white);
+            border-left: 5px solid var(--accent);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .calc-result.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--QII-dark) 0%, var(--QII-blue) 100%);
+            color: var(--QII-gold);
+            padding: 1.2rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: background 0.3s;
+        }
+
+        tr:hover td {
+            background: #fefcbf;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-left: 5px solid #3182ce;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fefcbf 0%, #fef3c7 100%);
+            border-left: 5px solid var(--QII-gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .bio-box {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border-left: 5px solid #319795;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .pharma-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left: 5px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .problem-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 5px solid #38a169;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        details.solution {
+            margin-top: 1rem;
+            background: #f8fafc;
+            border: 2px solid var(--QII-light);
+            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+        }
+
+        details.solution summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--QII-blue);
+        }
+
+        details.solution[open] summary {
+            margin-bottom: 0.8rem;
+            border-bottom: 1px dashed var(--QII-light);
+            padding-bottom: .4rem;
+        }
+
+        .mnemonic-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #feebc8 100%);
+            border: 3px solid var(--accent-orange);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mnemonic-title {
+            color: var(--accent-orange);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .glossary-term {
+            background: var(--white);
+            border: 2px solid var(--QII-gold);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .glossary-term:hover {
+            background: #fefcbf;
+            transform: translateX(5px);
+        }
+
+        .glossary-definition {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--QII-gold);
+        }
+
+        .glossary-definition.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .error-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-left: 5px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .error-title {
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .correction {
+            background: #c6f6d5;
+            border-left: 3px solid #38a169;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .quiz-container {
+            background: linear-gradient(135deg, var(--QII-dark) 0%, var(--QII-blue) 100%);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 3px solid var(--QII-gold);
+        }
+
+        .quiz-question-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--QII-gold);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--QII-gold);
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .quiz-option {
+            background: var(--white);
+            color: var(--text);
+            border: 2px solid transparent;
+            padding: 0.9rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .quiz-option:hover:not(:disabled) {
+            border-color: var(--QII-gold);
+            transform: translateY(-2px);
+        }
+
+        .quiz-option:disabled {
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+
+        .quiz-option.correct {
+            background: #38a169;
+            color: white;
+            border-color: #22543d;
+        }
+
+        .quiz-option.incorrect {
+            background: #e53e3e;
+            color: white;
+            border-color: #742a2a;
+        }
+
+        .quiz-explanation {
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #fff;
+            display: none;
+        }
+
+        .quiz-progress {
+            max-width: 720px;
+            margin: 0 auto 1rem;
+        }
+
+        .quiz-progress-bar-bg {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--QII-gold), var(--accent-orange));
+            transition: width 0.4s;
+        }
+
+        .quiz-stats {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .quiz-stat {
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.95rem;
+            background: var(--QII-light);
+        }
+
+        .footer {
+            background: var(--QII-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            border-top: 5px solid var(--QII-gold);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .table-responsive table {
+            min-width: 600px;
+            width: 100%;
+            margin: 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: var(--QII-gold);
+            color: var(--QII-dark);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .fc-stats {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .fc-stat {
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .fc-stat.good {
+            background: #38a169;
+        }
+        .fc-stat.bad {
+            background: #e53e3e;
+        }
+        .fc-stat.pending {
+            background: #4a5568;
+        }
+        .fc-stat.total {
+            background: var(--QII-blue);
+        }
+
+        .fc-progress {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .fc-progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--QII-gold), var(--accent));
+            transition: width 0.4s;
+        }
+
+        .flashcard-scene {
+            perspective: 1400px;
+            max-width: 720px;
+            height: 320px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .fc-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: auto;
+            box-shadow: 0 8px 24px var(--shadow);
+            font-size: 1.15rem;
+        }
+
+        .fc-front {
+            background: linear-gradient(135deg, var(--QII-dark), var(--QII-blue));
+            color: #fff;
+            border: 3px solid var(--QII-gold);
+        }
+
+        .fc-back {
+            background: linear-gradient(135deg, #fff, #fefcbf);
+            color: var(--text);
+            border: 3px solid var(--QII-gold);
+            transform: rotateY(180deg);
+        }
+
+        .fc-label {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+            color: var(--QII-gold);
+            margin-bottom: 1rem;
+        }
+
+        .fc-hint {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .fc-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .fc-btn {
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #fff;
+        }
+
+        .fc-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .fc-btn.good {
+            background: #38a169;
+        }
+        .fc-btn.bad {
+            background: #e53e3e;
+        }
+
+        .fc-btn:not(:disabled):hover {
+            transform: translateY(-3px);
+        }
+
+        .map-container {
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        .map-tree,
+        .map-tree ul {
+            list-style: none;
+            margin: 0;
+            padding-left: 0;
+        }
+
+        .map-tree ul {
+            display: none;
+            padding-left: 1.6rem;
+            margin: 0.6rem 0 0;
+            border-left: 3px solid var(--QII-gold);
+        }
+
+        .map-tree li.open>ul {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .map-tree li {
+            margin: 0.4rem 0;
+        }
+
+        .map-node {
+            display: inline-block;
+            background: var(--QII-dark);
+            color: #fff;
+            padding: 0.6rem 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 1px solid var(--QII-gold);
+        }
+
+        .map-node:hover {
+            background: var(--QII-gold);
+            color: var(--QII-dark);
+            transform: translateX(4px);
+        }
+
+        .map-node.root {
+            background: var(--accent);
+            color: white;
+            font-size: 1.15rem;
+            border: none;
+        }
+
+        .map-node.branch {
+            background: var(--QII-blue);
+        }
+
+        .map-leaf {
+            display: inline-block;
+            background: #fff;
+            color: var(--text);
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border: 2px solid var(--QII-gold);
+        }
+
+        li.has-children>.map-node::before {
+            content: '▶ ';
+            font-size: 0.8em;
+        }
+
+        li.has-children.open>.map-node::before {
+            content: '▼ ';
+            font-size: 0.8em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            h3 {
+                font-size: 1.2rem;
+            }
+            .logo-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .logo-qii {
+                width: 80px;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+            .nav-buttons {
+                gap: 0.5rem;
+            }
+            .nav-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+            }
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 0.5rem;
+            }
+            .tab {
+                flex-shrink: 0;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            .flashcard-scene {
+                height: 360px;
+            }
+            .fc-face {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="Logo-QII.png" alt="Logo QII" class="logo-qii">
+            <div>
+                <h1>QUÍMICA II</h1>
+                <p class="subtitle">Unidad 4: Cinética Química</p>
+                <p class="subtitle">Clase 11: Reacciones de primer orden, Ecuación de Arrhenius, Mecanismos y Catálisis</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-container">
+        <div class="nav-buttons" id="navButtons">
+            <button class="nav-btn active" type="button" data-section="inicio">🏠 Inicio</button>
+            <button class="nav-btn" type="button" data-section="conceptos">📚 Conceptos</button>
+            <button class="nav-btn" type="button" data-section="mapa">🗺️ Mapa</button>
+            <button class="nav-btn" type="button" data-section="flashcards">🃏 Flashcards</button>
+            <button class="nav-btn" type="button" data-section="calculadoras">🧮 Herramientas</button>
+            <button class="nav-btn" type="button" data-section="aplicaciones">🏥 Aplicaciones</button>
+            <button class="nav-btn" type="button" data-section="mnemotecnias">🧠 Mnemotecnias</button>
+            <button class="nav-btn" type="button" data-section="glosario">📖 Glosario</button>
+            <button class="nav-btn" type="button" data-section="errores">⚠️ Errores</button>
+            <button class="nav-btn" type="button" data-section="bibliografia">📚 Bibliografía</button>
+            <button class="nav-btn" type="button" data-section="quiz">🎯 Quiz</button>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- ============ INICIO ============ -->
+        <section id="inicio" class="section active">
+            <div class="card">
+                <h2>🎯 Resultados del Aprendizaje</h2>
+                <div class="info-box">
+                    <ul style="font-size: 1.1rem; line-height: 2;">
+                        <li>✓ Comprender el concepto de <strong>orden de reacción</strong> y determinar el orden a partir de datos experimentales.</li>
+                        <li>✓ Aplicar la <strong>ecuación de Arrhenius</strong> para relacionar la constante de velocidad con la temperatura y calcular la energía de activación.</li>
+                        <li>✓ Identificar <strong>mecanismos de reacción</strong>, pasos elementales, intermediarios y la etapa determinante de la velocidad.</li>
+                        <li>✓ Distinguir entre <strong>catalizadores homogéneos y heterogéneos</strong> y explicar cómo afectan la energía de activación y la velocidad de reacción.</li>
+                        <li>✓ Resolver problemas de cinética química con aplicaciones en ciencias de la salud.</li>
+                    </ul>
+                </div>
+
+                <h3>🔬 Relevancia Profesional</h3>
+                <div class="bio-box">
+                    <div><strong>¿Por qué el estudiante de ciencias de la salud debe dominar la cinética química?</strong>
+                        <ul style="font-size: 1rem; margin-top: 1rem;">
+                            <li>• <strong>Farmacia:</strong> La velocidad de degradación de fármacos (cinética de primer orden) determina su vida útil y fecha de caducidad. La ecuación de Arrhenius permite predecir la estabilidad a diferentes temperaturas.</li>
+                            <li>• <strong>Bioquímica:</strong> Las enzimas son catalizadores biológicos que aceleran reacciones vitales disminuyendo la energía de activación. Comprender su mecanismo es clave en metabolismo.</li>
+                            <li>• <strong>Nutrición:</strong> La velocidad de reacciones de oxidación de nutrientes (como vitaminas) influye en la conservación de alimentos y su valor nutricional.</li>
+                            <li>• <strong>Biología:</strong> La cinética enzimática regula rutas metabólicas; entender la etapa determinante ayuda a comprender la regulación de procesos celulares.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CONCEPTOS ============ -->
+        <section id="conceptos" class="section">
+            <div class="card">
+                <h2>📚 Conceptos Clave: Cinética Química</h2>
+                <div id="conceptos-tabs" class="tab-group">
+                    <div class="tabs" id="conceptosTabHeaders">
+                        <button class="tab active" type="button" data-tab="sub-orden">📊 Orden de reacción</button>
+                        <button class="tab" type="button" data-tab="sub-primer">⚡ Primer orden</button>
+                        <button class="tab" type="button" data-tab="sub-arrhenius">🌡️ Arrhenius</button>
+                        <button class="tab" type="button" data-tab="sub-mecanismo">🔬 Mecanismos</button>
+                        <button class="tab" type="button" data-tab="sub-catalisis">🧪 Catálisis</button>
+                    </div>
+
+                    <!-- ORDEN -->
+                    <div id="sub-orden" class="tab-content active">
+                        <h3>📊 Orden de una reacción</h3>
+                        <div class="info-box">
+                            <p>El <strong>orden de reacción</strong> se determina experimentalmente a partir de la ley de velocidad. Es la suma de los exponentes de las concentraciones en la ecuación de velocidad.</p>
+                            <p>Para una reacción general: $$ aA + bB \rightarrow \text{productos} $$</p>
+                            <p>La ley de velocidad suele tener la forma: $$ \text{velocidad} = k[A]^m[B]^n $$ donde <em>m</em> y <em>n</em> son los órdenes parciales, y el orden total es $m+n$.</p>
+                        </div>
+                        <div class="tip-box">
+                            <strong>Ejemplos:</strong><br>
+                            • Reacción de primer orden: $v = k[A]$<br>
+                            • Reacción de segundo orden: $v = k[A]^2$ o $v = k[A][B]$<br>
+                            • Reacción de orden cero: $v = k$ (independiente de la concentración)
+                        </div>
+                        <div class="problem-box">
+                            <p><strong>Ejercicio:</strong> Para la reacción $2NO(g) + 2H_2(g) \rightarrow N_2(g) + 2H_2O(g)$, la ley de velocidad experimental es $v = k[NO]^2[H_2]$. Si se duplica la concentración de $H_2$, ¿cómo cambia la velocidad?</p>
+                            <details class="solution">
+                                <summary>Ver solución</summary>
+                                <p>La velocidad es directamente proporcional a $[H_2]^1$, por lo que al duplicar $[H_2]$, la velocidad se <strong>duplica</strong>.</p>
+                            </details>
+                        </div>
+                    </div>
+
+                    <!-- PRIMER ORDEN -->
+                    <div id="sub-primer" class="tab-content">
+                        <h3>⚡ Reacciones de Primer Orden</h3>
+                        <p>Una reacción es de <strong>primer orden</strong> cuando la velocidad es directamente proporcional a la concentración de un único reactivo:</p>
+                        <div class="tip-box">
+                            $$ v = k[A] \quad \text{o} \quad -\frac{d[A]}{dt} = k[A] $$
+                            <br>
+                            Integrando: $$ \ln[A]_t = -kt + \ln[A]_0 $$
+                        </div>
+                        <p>La representación de $\ln[A]$ vs $t$ da una línea recta con pendiente $-k$. La <strong>vida media</strong> ($t_{1/2}$) de una reacción de primer orden es independiente de la concentración inicial:</p>
+                        <div class="tip-box">
+                            $$ t_{1/2} = \frac{\ln 2}{k} \approx \frac{0.693}{k} $$
+                        </div>
+
+                        <h3>Ejemplo: Descomposición del dimetil éter</h3>
+                        <p>La descomposición del dimetil éter a 504 °C es de primer orden:</p>
+                        $$ (CH_3)_2O(g) \rightarrow CH_4(g) + H_2(g) + CO(g) $$
+                        <p>Datos de presión parcial del DME en función del tiempo:</p>
+                        <div class="table-responsive">
+                            <table>
+                                <thead><tr><th>Tiempo (s)</th><th>0</th><th>390</th><th>777</th><th>1195</th><th>3155</th></tr></thead>
+                                <tbody><tr><td>Presión DME (mm Hg)</td><td>312</td><td>264</td><td>224</td><td>187</td><td>78.5</td></tr></tbody>
+                            </table>
+                        </div>
+                        <div class="problem-box">
+                            <p><strong>Demostrar que es de primer orden:</strong> Calcular $\ln P$ vs $t$ y verificar la linealidad.</p>
+                            <details class="solution">
+                                <summary>Ver desarrollo</summary>
+                                <p>Para $t=390$: $\ln(264/312) = -k(390) \Rightarrow k = 4.28 \times 10^{-4} \, s^{-1}$</p>
+                                <p>Para $t=777$: $\ln(224/312) = -k(777) \Rightarrow k = 4.26 \times 10^{-4} \, s^{-1}$</p>
+                                <p>Los valores de $k$ son prácticamente constantes, confirmando el orden 1.</p>
+                            </details>
+                        </div>
+                        <div class="img-container">
+                            <img src="grafico-lnP.png" alt="Gráfica ln P vs t para primer orden" class="molecule-img" style="max-height:300px;">
+                            <p class="img-caption">Figura 1: Gráfica de $\ln P$ vs tiempo para la descomposición del dimetil éter, mostrando linealidad característica de primer orden.</p>
+                        </div>
+                    </div>
+
+                    <!-- ARRHENIUS -->
+                    <div id="sub-arrhenius" class="tab-content">
+                        <h3>🌡️ Ecuación de Arrhenius</h3>
+                        <p>La constante de velocidad $k$ depende fuertemente de la temperatura. Arrhenius propuso:</p>
+                        <div class="tip-box">
+                            $$ k = A e^{-E_a/(RT)} $$
+                            <br>
+                            donde $A$ es el factor de frecuencia, $E_a$ la energía de activación, $R$ la constante de los gases y $T$ la temperatura absoluta.
+                        </div>
+                        <p>Tomando logaritmos naturales:</p>
+                        <div class="tip-box">
+                            $$ \ln k = -\frac{E_a}{R}\frac{1}{T} + \ln A $$
+                            <br>
+                            Al graficar $\ln k$ vs $1/T$ se obtiene una recta de pendiente $-E_a/R$ e intersección $\ln A$.
+                        </div>
+                        <p>Para dos temperaturas diferentes:</p>
+                        <div class="tip-box">
+                            $$ \ln\left(\frac{k_2}{k_1}\right) = \frac{E_a}{R}\left(\frac{1}{T_1} - \frac{1}{T_2}\right) $$
+                        </div>
+
+                        <div class="problem-box">
+                            <p><strong>Ejemplo:</strong> La descomposición del HI en fase gaseosa tiene $E_a = 182 \, kJ/mol$. A $700°C$, $k = 1.57 \times 10^{-5} \, M^{-1}s^{-1}$. Calcular $k$ a $800°C$.</p>
+                            <details class="solution">
+                                <summary>Ver desarrollo</summary>
+                                <p>$T_1 = 973 \, K$, $T_2 = 1073 \, K$, $E_a = 182000 \, J/mol$.</p>
+                                <p>$\ln\left(\frac{k_2}{1.57 \times 10^{-5}}\right) = \frac{182000}{8.314}\left(\frac{1}{973} - \frac{1}{1073}\right) = 2.09$</p>
+                                <p>$\frac{k_2}{1.57 \times 10^{-5}} = e^{2.09} \approx 8.08 \Rightarrow k_2 = 1.27 \times 10^{-4} \, M^{-1}s^{-1}$</p>
+                            </details>
+                        </div>
+                    </div>
+
+                    <!-- MECANISMOS -->
+                    <div id="sub-mecanismo" class="tab-content">
+                        <h3>🔬 Mecanismos de Reacción</h3>
+                        <p>Un <strong>mecanismo de reacción</strong> describe la secuencia de pasos elementales por los cuales transcurre la reacción global.</p>
+                        <ul>
+                            <li><strong>Paso elemental:</strong> reacción que ocurre en una sola etapa molecular.</li>
+                            <li><strong>Intermediario:</strong> especie que se forma y se consume durante el mecanismo, no aparece en la ecuación global.</li>
+                            <li><strong>Etapa determinante de la velocidad:</strong> el paso más lento, que controla la velocidad global.</li>
+                        </ul>
+                        <div class="info-box">
+                            <p>Ejemplo: La reacción $NO_2(g) + CO(g) \rightarrow NO(g) + CO_2(g)$ ocurre por debajo de 225°C en dos pasos:</p>
+                            <p>1. $NO_2 + NO_2 \rightarrow NO_3 + NO$ (lenta)</p>
+                            <p>2. $NO_3 + CO \rightarrow NO_2 + CO_2$ (rápida)</p>
+                            <p>El $NO_3$ es un intermediario. La ley de velocidad experimental es $v = k[NO_2]^2$, consistente con el paso lento bimolecular.</p>
+                        </div>
+                        <div class="problem-box">
+                            <p><strong>Ejercicio:</strong> Dado el mecanismo:<br>
+                                $NO_2(g) + F_2(g) \rightarrow NO_2F_2(g)$ (lento)<br>
+                                $NO_2F_2(g) \rightarrow NO_2F(g) + F(g)$ (rápido)<br>
+                                $F(g) + NO_2(g) \rightarrow NO_2F(g)$ (rápido)<br>
+                                ¿Cuál es la ley de velocidad y cuáles son los intermediarios?
+                            </p>
+                            <details class="solution">
+                                <summary>Ver solución</summary>
+                                <p>La etapa lenta es la primera, por lo que la ley de velocidad es $v = k[NO_2][F_2]$. Los intermediarios son $NO_2F_2$ y $F$.</p>
+                            </details>
+                        </div>
+                    </div>
+
+                    <!-- CATÁLISIS -->
+                    <div id="sub-catalisis" class="tab-content">
+                        <h3>🧪 Catálisis</h3>
+                        <p>Un <strong>catalizador</strong> acelera una reacción sin consumirse, proporcionando un mecanismo alternativo con menor energía de activación.</p>
+                        <div class="info-box">
+                            <strong>Catalizadores homogéneos:</strong> están en la misma fase que los reactivos (ej: iones $Br^-$ en solución acuosa para descomponer $H_2O_2$).<br>
+                            <strong>Catalizadores heterogéneos:</strong> están en fase diferente (ej: metales como Pt, Ni, Pd en reacciones con gases). La reacción ocurre en la superficie del catalizador.
+                        </div>
+                        <div class="tip-box">
+                            <p>Ejemplo: La hidrogenación del etileno $C_2H_4 + H_2 \rightarrow C_2H_6$ es catalizada por metales finamente divididos. El mecanismo involucra adsorción química, ruptura del enlace H-H y formación de enlaces C-H.</p>
+                        </div>
+                        <div class="img-container">
+                            <img src="catalisis-heterogenea.png" alt="Catálisis heterogénea del etileno" class="molecule-img" style="max-height:250px;">
+                            <p class="img-caption">Figura 2: Representación de la adsorción y reacción en superficie de un catalizador heterogéneo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ MAPA CONCEPTUAL ============ -->
+        <section id="mapa" class="section">
+            <div class="card">
+                <h2>🗺️ Mapa Conceptual: Cinética Química</h2>
+                <p style="margin-bottom:1rem;">Haz <strong>clic en cada nodo</strong> para desplegar u ocultar sus ramas.</p>
+                <div class="map-container">
+                    <ul class="map-tree">
+                        <li class="has-children open">
+                            <div class="map-node root" onclick="toggleMap(this)">⚡ CINÉTICA QUÍMICA</div>
+                            <ul>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">📊 Ley de velocidad</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Orden de reacción (global y parcial)</span></li>
+                                        <li><span class="map-leaf">Constante de velocidad $k$</span></li>
+                                        <li><span class="map-leaf">Método de las velocidades iniciales</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">⚡ Reacciones de primer orden</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Ecuación integrada: $\ln[A] = -kt + \ln[A]_0$</span></li>
+                                        <li><span class="map-leaf">Vida media: $t_{1/2} = 0.693/k$</span></li>
+                                        <li><span class="map-leaf">Gráfica lineal $\ln[A]$ vs $t$</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">🌡️ Ecuación de Arrhenius</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Dependencia de $k$ con $T$</span></li>
+                                        <li><span class="map-leaf">Energía de activación $E_a$</span></li>
+                                        <li><span class="map-leaf">Factor de frecuencia $A$</span></li>
+                                        <li><span class="map-leaf">Gráfica $\ln k$ vs $1/T$</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">🔬 Mecanismos</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Pasos elementales</span></li>
+                                        <li><span class="map-leaf">Intermediarios</span></li>
+                                        <li><span class="map-leaf">Etapa determinante de la velocidad</span></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <div class="map-node branch" onclick="toggleMap(this)">🧪 Catálisis</div>
+                                    <ul>
+                                        <li><span class="map-leaf">Homogénea vs heterogénea</span></li>
+                                        <li><span class="map-leaf">Disminución de $E_a$</span></li>
+                                        <li><span class="map-leaf">Adsorción en superficie</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FLASHCARDS ============ -->
+        <section id="flashcards" class="section">
+            <div class="card">
+                <h2>🃏 Flashcards: Cinética</h2>
+                <p>Haz <strong>clic en la tarjeta</strong> para voltearla.</p>
+                <div class="fc-stats">
+                    <span class="fc-stat good">✅ Buenas: <span id="fc-good">0</span></span>
+                    <span class="fc-stat bad">❌ Malas: <span id="fc-bad">0</span></span>
+                    <span class="fc-stat pending">⏳ Pendientes: <span id="fc-left">0</span></span>
+                </div>
+                <div class="fc-progress"><div class="fc-progress-bar" id="fc-bar"></div></div>
+                <div class="flashcard-scene" id="fc-scene">
+                    <div class="flashcard" id="fc-card">
+                        <div class="fc-face fc-front">
+                            <div class="fc-label">PREGUNTA</div>
+                            <div id="fc-question"></div>
+                            <span class="fc-hint">Clic para voltear ✨</span>
+                        </div>
+                        <div class="fc-face fc-back">
+                            <div class="fc-label">RESPUESTA</div>
+                            <div id="fc-answer"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fc-controls" id="fc-controls">
+                    <button class="fc-btn good" id="btn-fc-good" disabled>✅ La sabía</button>
+                    <button class="fc-btn bad" id="btn-fc-bad" disabled>❌ No la sabía</button>
+                </div>
+                <div style="text-align:center;">
+                    <button class="calc-button" id="resetFlashcardsBtn">🔄 Reiniciar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ HERRAMIENTAS ============ -->
+        <section id="calculadoras" class="section">
+            <div class="card">
+                <h2>🧮 Herramientas Interactivas</h2>
+                <div id="herramientas-tabs" class="tab-group">
+                    <div class="tabs" id="herramientasTabHeaders">
+                        <button class="tab active" type="button" data-tab="calc-arrhenius">🌡️ Arrhenius</button>
+                        <button class="tab" type="button" data-tab="calc-vida">⏳ Vida media (1er orden)</button>
+                    </div>
+
+                    <div id="calc-arrhenius" class="tab-content active">
+                        <div class="calculator">
+                            <div class="calc-title">🌡️ Calculadora de Arrhenius</div>
+                            <p>Calcula la constante de velocidad a una nueva temperatura dados $k_1$, $T_1$, $T_2$ y $E_a$.</p>
+                            <div class="calc-input-group"><label>$k_1$ (M⁻¹s⁻¹ o s⁻¹):</label><input type="number" id="k1-arr" value="1.57e-5" step="1e-6"></div>
+                            <div class="calc-input-group"><label>$T_1$ (K):</label><input type="number" id="t1-arr" value="973" step="1"></div>
+                            <div class="calc-input-group"><label>$T_2$ (K):</label><input type="number" id="t2-arr" value="1073" step="1"></div>
+                            <div class="calc-input-group"><label>$E_a$ (J/mol):</label><input type="number" id="ea-arr" value="182000" step="100"></div>
+                            <button class="calc-button" type="button" id="calcArrheniusBtn">Calcular $k_2$</button>
+                            <div id="res-arrhenius" class="calc-result"></div>
+                        </div>
+                    </div>
+
+                    <div id="calc-vida" class="tab-content">
+                        <div class="calculator">
+                            <div class="calc-title">⏳ Vida media (1er orden)</div>
+                            <p>Calcula la vida media a partir de la constante de velocidad $k$.</p>
+                            <div class="calc-input-group"><label>$k$ (s⁻¹):</label><input type="number" id="k-vida" value="0.01" step="0.001"></div>
+                            <button class="calc-button" type="button" id="calcVidaBtn">Calcular $t_{1/2}$</button>
+                            <div id="res-vida" class="calc-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ APLICACIONES ============ -->
+        <section id="aplicaciones" class="section">
+            <div class="card">
+                <h2>🏥 Aplicaciones en Ciencias de la Salud</h2>
+                <div class="pharma-box">
+                    <h3>💊 Estabilidad de fármacos</h3>
+                    <p>Muchos fármacos se degradan siguiendo una cinética de <strong>primer orden</strong>. La ecuación de Arrhenius se utiliza para predecir la velocidad de degradación a temperatura ambiente a partir de estudios a temperaturas elevadas (estudios de estrés). Esto permite establecer la <strong>fecha de caducidad</strong>.</p>
+                    <p>Por ejemplo, la hidrólisis de la aspirina en solución es de primer orden; conocer $E_a$ permite ajustar las condiciones de almacenamiento.</p>
+                </div>
+                <div class="bio-box">
+                    <h3>🧬 Catálisis enzimática</h3>
+                    <p>Las enzimas son catalizadores biológicos que reducen la energía de activación de reacciones metabólicas. El mecanismo de acción enzimática (ej. modelo de ajuste inducido) es análogo a la catálisis heterogénea, donde el sustrato se adsorbe en el sitio activo y se convierte en producto.</p>
+                    <p>Comprender la cinética enzimática (Michaelis-Menten) es fundamental en farmacología para el diseño de inhibidores.</p>
+                </div>
+                <div class="info-box">
+                    <h3>🥗 Conservación de alimentos</h3>
+                    <p>La oxidación de vitaminas y lípidos en alimentos sigue cinéticas de primer orden. La ecuación de Arrhenius ayuda a determinar la vida útil de productos alimenticios y a optimizar las condiciones de almacenamiento (temperatura, luz, oxígeno).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ MNEMOTECNIAS ============ -->
+        <section id="mnemotecnias" class="section">
+            <div class="card">
+                <h2>🧠 Mnemotecnias</h2>
+                <div class="mnemonic-card">
+                    <div class="mnemonic-title">Ecuación de Arrhenius</div>
+                    <p><strong>"Aumentar la temperatura, aumenta la constante"</strong></p>
+                    <p>$$ k = A e^{-E_a/(RT)} $$</p>
+                    <p>Recordar que <em>A</em> es el "factor de frecuencia" (choques efectivos).</p>
+                </div>
+                <div class="mnemonic-card">
+                    <div class="mnemonic-title">Orden de reacción</div>
+                    <p><strong>"Cero, Uno, Dos: la velocidad sube o no"</strong></p>
+                    <ul>
+                        <li>Orden 0: velocidad constante (independiente de [A])</li>
+                        <li>Orden 1: velocidad ∝ [A]</li>
+                        <li>Orden 2: velocidad ∝ [A]²</li>
+                    </ul>
+                </div>
+                <div class="mnemonic-card">
+                    <div class="mnemonic-title">Etapa determinante</div>
+                    <p><strong>"El paso más lento es el que manda"</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ GLOSARIO ============ -->
+        <section id="glosario" class="section">
+            <div class="card">
+                <h2>📖 Glosario</h2>
+                <div class="glossary-term" onclick="toggleGlossary(this)">
+                    <strong>Orden de reacción</strong>
+                    <div class="glossary-definition">Suma de los exponentes de las concentraciones en la ley de velocidad. Se determina experimentalmente, no a partir de la estequiometría.</div>
+                </div>
+                <div class="glossary-term" onclick="toggleGlossary(this)">
+                    <strong>Energía de activación ($E_a$)</strong>
+                    <div class="glossary-definition">Energía mínima que deben tener los reactivos para que ocurra una reacción. Una $E_a$ alta implica una reacción más lenta a temperatura dada.</div>
+                </div>
+                <div class="glossary-term" onclick="toggleGlossary(this)">
+                    <strong>Intermediario</strong>
+                    <div class="glossary-definition">Especie química que se forma en un paso elemental y se consume en un paso posterior; no aparece en la ecuación global.</div>
+                </div>
+                <div class="glossary-term" onclick="toggleGlossary(this)">
+                    <strong>Catalizador</strong>
+                    <div class="glossary-definition">Sustancia que aumenta la velocidad de una reacción sin consumirse, proporcionando un mecanismo alternativo con menor $E_a$.</div>
+                </div>
+                <div class="glossary-term" onclick="toggleGlossary(this)">
+                    <strong>Vida media ($t_{1/2}$)</strong>
+                    <div class="glossary-definition">Tiempo necesario para que la concentración de un reactivo se reduzca a la mitad. Para primer orden, es independiente de la concentración inicial.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ ERRORES COMUNES ============ -->
+        <section id="errores" class="section">
+            <div class="card">
+                <h2>⚠️ Errores Comunes</h2>
+                <div class="error-card">
+                    <div class="error-title">Error 1: Confundir orden de reacción con estequiometría</div>
+                    <p>El orden no se deduce de la ecuación balanceada; debe determinarse experimentalmente.</p>
+                    <div class="correction"><strong>Correcto:</strong> La ley de velocidad se obtiene midiendo velocidades iniciales a diferentes concentraciones.</div>
+                </div>
+                <div class="error-card">
+                    <div class="error-title">Error 2: Olvidar las unidades de $k$</div>
+                    <p>Las unidades de la constante de velocidad dependen del orden global: para primer orden $s^{-1}$, para segundo orden $M^{-1}s^{-1}$.</p>
+                    <div class="correction"><strong>Correcto:</strong> Verificar siempre las unidades para evitar errores dimensionales.</div>
+                </div>
+                <div class="error-card">
+                    <div class="error-title">Error 3: Usar $E_a$ sin convertir a J/mol en Arrhenius</div>
+                    <p>La constante $R = 8.314 \, J/(mol\cdot K)$, por lo que $E_a$ debe estar en J/mol.</p>
+                    <div class="correction"><strong>Correcto:</strong> Convertir kJ/mol a J/mol multiplicando por 1000.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ BIBLIOGRAFIA ============ -->
+        <section id="bibliografia" class="section">
+            <div class="card">
+                <h2>📚 Bibliografía</h2>
+                <ul>
+                    <li>Chang, R., & Goldsby, K. A. (2017). <em>Química</em> (12va ed.). McGraw-Hill Interamericana. Capítulo 13: Cinética química.</li>
+                    <li>Brady, J. E., Senese, F., & Alexander, G. S. (2017). <em>Chemistry: Matter and Its Changes</em> (7th ed.). Wiley. Capítulo 16.</li>
+                    <li>Atkins, P., & Jones, L. (2018). <em>Principios de química</em> (3ra ed.). Médica Panamericana. Capítulo 12.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ QUIZ ============ -->
+        <section id="quiz" class="section">
+            <div class="card">
+                <h2>🎯 Quiz de Autoevaluación</h2>
+                <div class="quiz-container" id="quiz-box">
+                    <div class="quiz-progress"><div class="quiz-progress-bar-bg"><div class="quiz-progress-bar" id="quiz-bar"></div></div></div>
+                    <div class="quiz-stats" id="quiz-stats-inline" style="display:flex; justify-content:space-between; margin-bottom:1rem; font-size:0.95rem;">
+                        <span style="color:#D97706; font-weight:700;">Pregunta: <span id="quiz-current">1</span> de <span id="quiz-total">10</span></span>
+                        <span style="color:#38a169; font-weight:700;">Puntaje: <span id="quiz-score">0</span> pts</span>
+                    </div>
+                    <div id="quiz-content"></div>
+                    <div class="quiz-stats" id="quiz-stats" style="display:none;">
+                        <span class="quiz-stat" style="background:#38a169">✅ Correctas: <span id="quiz-correct">0</span></span>
+                        <span class="quiz-stat" style="background:#e53e3e">❌ Incorrectas: <span id="quiz-incorrect">0</span></span>
+                        <span class="quiz-stat" style="background:var(--QII-blue)">🏆 Puntaje Final: <span id="quiz-final-score">0</span> pts</span>
+                    </div>
+                    <button class="calc-button" id="resetQuizBtn" style="display:none; margin-top:1rem;">🔄 Nuevas preguntas</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Química II - Plataforma Educativa Universitaria | Clase 11: Cinética Química</p>
+    </footer>
+
+    <script>
+        // ======================== FUNCIONES GLOBALES ========================
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.nav-btn[data-section="${id}"]`)?.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function showTab(groupId, tabId) {
+            const group = document.getElementById(groupId);
+            if (!group) return;
+            group.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            group.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            const targetContent = document.getElementById(tabId);
+            if (targetContent) targetContent.classList.add('active');
+            const tabBtn = group.querySelector(`.tab[data-tab="${tabId}"]`);
+            if (tabBtn) tabBtn.classList.add('active');
+            if (window.MathJax) MathJax.typeset();
+        }
+
+        function toggleMap(el) {
+            el.parentElement.classList.toggle('open');
+        }
+
+        function toggleGlossary(el) {
+            el.querySelector('.glossary-definition').classList.toggle('show');
+        }
+
+        // ======================== FLASHCARDS ========================
+        const flashcards = [{
+            q: "¿Qué es el orden de reacción?",
+            a: "Suma de los exponentes de las concentraciones en la ley de velocidad. Se determina experimentalmente."
+        }, {
+            q: "Ecuación integrada para una reacción de primer orden.",
+            a: "$\\ln[A]_t = -kt + \\ln[A]_0$"
+        }, {
+            q: "Vida media de una reacción de primer orden.",
+            a: "$t_{1/2} = \\frac{\\ln 2}{k} \\approx \\frac{0.693}{k}$"
+        }, {
+            q: "Ecuación de Arrhenius.",
+            a: "$k = A e^{-E_a/(RT)}$"
+        }, {
+            q: "Forma lineal de Arrhenius.",
+            a: "$\\ln k = -\\frac{E_a}{R}\\frac{1}{T} + \\ln A$"
+        }, {
+            q: "¿Qué es la energía de activación?",
+            a: "Energía mínima que deben tener los reactivos para que ocurra la reacción."
+        }, {
+            q: "¿Cuál es la etapa determinante de la velocidad?",
+            a: "El paso más lento del mecanismo, que controla la velocidad global."
+        }, {
+            q: "Diferencia entre catalizador homogéneo y heterogéneo.",
+            a: "Homogéneo: misma fase que reactivos; heterogéneo: fase diferente (ej. sólido con gases)."
+        }, {
+            q: "¿Qué es un intermediario en un mecanismo?",
+            a: "Especie que se forma y se consume durante el mecanismo, no aparece en la ecuación global."
+        }, {
+            q: "Unidades de k para una reacción de primer orden.",
+            a: "$s^{-1}$"
+        }, {
+            q: "Efecto de un catalizador sobre la energía de activación.",
+            a: "Disminuye la energía de activación, aumentando la velocidad de reacción."
+        }, {
+            q: "¿Qué representa el factor de frecuencia A en Arrhenius?",
+            a: "Frecuencia de colisiones efectivas entre moléculas."
+        }];
+
+        let fcIdx = 0,
+            fcGood = 0,
+            fcBad = 0,
+            fcLeft = flashcards.length;
+
+        function updateFcStats() {
+            document.getElementById('fc-good').innerText = fcGood;
+            document.getElementById('fc-bad').innerText = fcBad;
+            document.getElementById('fc-left').innerText = fcLeft;
+            document.getElementById('fc-bar').style.width = ((fcGood + fcBad) / flashcards.length * 100) + '%';
+        }
+
+        function loadCard() {
+            if (fcIdx >= flashcards.length) {
+                document.getElementById('fc-question').innerHTML = "¡Terminaste las flashcards!";
+                document.getElementById('fc-answer').innerHTML = "Revisa tus estadísticas arriba.";
+                document.getElementById('btn-fc-good').disabled = true;
+                document.getElementById('btn-fc-bad').disabled = true;
+                return;
+            }
+            const card = flashcards[fcIdx];
+            document.getElementById('fc-question').innerHTML = card.q;
+            document.getElementById('fc-answer').innerHTML = card.a;
+            document.getElementById('fc-card').classList.remove('flipped');
+            document.getElementById('btn-fc-good').disabled = true;
+            document.getElementById('btn-fc-bad').disabled = true;
+            if (window.MathJax) MathJax.typeset();
+        }
+
+        function flipCard() {
+            const card = document.getElementById('fc-card');
+            card.classList.toggle('flipped');
+            if (card.classList.contains('flipped')) {
+                document.getElementById('btn-fc-good').disabled = false;
+                document.getElementById('btn-fc-bad').disabled = false;
+            }
+        }
+
+        function gradeCard(isGood) {
+            if (isGood) fcGood++;
+            else fcBad++;
+            fcLeft--;
+            fcIdx++;
+            updateFcStats();
+            loadCard();
+        }
+
+        function resetFlashcards() {
+            fcIdx = 0;
+            fcGood = 0;
+            fcBad = 0;
+            fcLeft = flashcards.length;
+            updateFcStats();
+            loadCard();
+        }
+
+        // ======================== CALCULADORAS ========================
+        function calcularArrhenius() {
+            const k1 = parseFloat(document.getElementById('k1-arr').value);
+            const T1 = parseFloat(document.getElementById('t1-arr').value);
+            const T2 = parseFloat(document.getElementById('t2-arr').value);
+            const Ea = parseFloat(document.getElementById('ea-arr').value);
+            if (!k1 || !T1 || !T2 || !Ea) {
+                document.getElementById('res-arrhenius').innerHTML = 'Completa todos los campos.';
+                document.getElementById('res-arrhenius').classList.add('show');
+                return;
+            }
+            const R = 8.314;
+            const ln_ratio = (Ea / R) * (1 / T1 - 1 / T2);
+            const k2 = k1 * Math.exp(ln_ratio);
+            const res = document.getElementById('res-arrhenius');
+            res.innerHTML =
+                `<strong>Resultado:</strong> $k_2 = ${k2.toExponential(4)} \\, \\text{M}^{-1}\\text{s}^{-1}$ (o unidades correspondientes)`;
+            res.classList.add('show');
+            if (window.MathJax) MathJax.typeset();
+        }
+
+        function calcularVidaMedia() {
+            const k = parseFloat(document.getElementById('k-vida').value);
+            if (!k || k <= 0) {
+                document.getElementById('res-vida').innerHTML = 'Ingresa una k válida (s⁻¹).';
+                document.getElementById('res-vida').classList.add('show');
+                return;
+            }
+            const t12 = 0.693 / k;
+            const res = document.getElementById('res-vida');
+            res.innerHTML = `<strong>Vida media:</strong> $t_{1/2} = ${t12.toFixed(3)} \\, s$`;
+            res.classList.add('show');
+            if (window.MathJax) MathJax.typeset();
+        }
+
+        // ======================== QUIZ ========================
+        // Banco de 30 preguntas
+        const questionBank = [{
+            q: "¿Cuál es el orden de una reacción cuya ley de velocidad es $v = k[A]^2[B]$?",
+            options: ["1", "2", "3", "0"],
+            correct: 2,
+            exp: "El orden total es la suma de los exponentes: 2 + 1 = 3."
+        }, {
+            q: "En una reacción de primer orden, la vida media es:",
+            options: ["Directamente proporcional a [A]₀", "Independiente de [A]₀", "Inversamente proporcional a [A]₀", "Proporcional a [A]₀²"],
+            correct: 1,
+            exp: "Para primer orden, $t_{1/2} = 0.693/k$, no depende de la concentración inicial."
+        }, {
+            q: "La ecuación de Arrhenius relaciona $k$ con:",
+            options: ["La concentración", "La temperatura", "El tiempo", "El volumen"],
+            correct: 1,
+            exp: "$k = A e^{-E_a/(RT)}$ muestra la dependencia exponencial con la temperatura."
+        }, {
+            q: "¿Qué sucede con la constante de velocidad $k$ si la energía de activación disminuye?",
+            options: ["Aumenta", "Disminuye", "No cambia", "Se vuelve cero"],
+            correct: 0,
+            exp: "A menor $E_a$, mayor $k$ (exponencial negativa)."
+        }, {
+            q: "En un mecanismo de dos pasos, la etapa lenta es la que:",
+            options: ["Tiene mayor energía de activación", "Tiene menor energía de activación", "Ocurre primero", "Ocurre al final"],
+            correct: 0,
+            exp: "La etapa lenta tiene la mayor barrera de activación, por lo que controla la velocidad."
+        }, {
+            q: "¿Cuál de los siguientes es un catalizador homogéneo?",
+            options: ["Pt sólido en hidrogenación de gases", "Iones Br⁻ en solución para descomponer H₂O₂", "Ni metálico", "Zeolita"],
+            correct: 1,
+            exp: "Los iones Br⁻ están en la misma fase acuosa que los reactivos, por lo tanto es homogéneo."
+        }, {
+            q: "En la gráfica de $\ln k$ vs $1/T$, la pendiente es:",
+            options: ["$E_a/R$", "$-E_a/R$", "$\ln A$", "$-E_a$"],
+            correct: 1,
+            exp: "La ecuación lineal es $\ln k = -E_a/R (1/T) + \ln A$, por lo que pendiente = $-E_a/R$."
+        }, {
+            q: "La descomposición del dimetil éter a 504 °C es de primer orden. ¿Qué gráfica debe ser lineal?",
+            options: ["[A] vs t", "1/[A] vs t", "ln[A] vs t", "[A]² vs t"],
+            correct: 2,
+            exp: "Para primer orden, $\ln[A]$ vs $t$ es lineal."
+        }, {
+            q: "Un catalizador heterogéneo actúa principalmente:",
+            options: ["En el seno de la solución", "En la superficie del catalizador", "Aumentando la concentración", "Disminuyendo la temperatura"],
+            correct: 1,
+            exp: "La reacción ocurre en la superficie del sólido (adsorción química)."
+        }, {
+            q: "¿Qué es un intermediario?",
+            options: ["Sustancia que se añade al inicio", "Especie que se forma y se consume en el mecanismo", "Producto final", "Catalizador"],
+            correct: 1,
+            exp: "Los intermediarios aparecen en los pasos elementales pero no en la ecuación global."
+        }, {
+            q: "Para una reacción de primer orden, si [A]₀ = 0.5 M y k = 0.1 s⁻¹, ¿cuál es la concentración después de 10 s?",
+            options: ["0.5 M", "0.184 M", "0.1 M", "0 M"],
+            correct: 1,
+            exp: "$[A] = [A]_0 e^{-kt} = 0.5 e^{-1} = 0.184$ M."
+        }, {
+            q: "La energía de activación de una reacción puede determinarse a partir de:",
+            options: ["La estequiometría", "La pendiente de ln k vs 1/T", "La concentración inicial", "El orden de reacción"],
+            correct: 1,
+            exp: "La pendiente es $-E_a/R$, por lo que $E_a = -R \times \text{pendiente}$."
+        }, {
+            q: "¿Cuál es el orden de la reacción $2N_2O_5 \rightarrow 4NO_2 + O_2$ si la ley experimental es $v = k[N_2O_5]$?",
+            options: ["0", "1", "2", "3"],
+            correct: 1,
+            exp: "La ley de velocidad es $v = k[N_2O_5]$, por lo tanto es de primer orden."
+        }, {
+            q: "En catálisis heterogénea, la adsorción de reactivos:",
+            options: ["Es siempre despreciable", "Aumenta la energía de activación", "Disminuye la energía de activación", "No afecta la velocidad"],
+            correct: 2,
+            exp: "La adsorción debilita los enlaces, reduciendo la barrera de activación."
+        }, {
+            q: "El factor de frecuencia A en Arrhenius está relacionado con:",
+            options: ["La frecuencia de colisiones", "La energía de activación", "La temperatura", "La concentración"],
+            correct: 0,
+            exp: "A es el factor preexponencial que incluye la frecuencia de colisiones y orientación."
+        }, {
+            q: "Si la temperatura aumenta, la constante de velocidad $k$:",
+            options: ["Aumenta exponencialmente", "Disminuye", "No cambia", "Aumenta linealmente"],
+            correct: 0,
+            exp: "Según Arrhenius, $k$ crece exponencialmente con la temperatura."
+        }, {
+            q: "En un mecanismo, la etapa determinante de la velocidad es:",
+            options: ["La más rápida", "La más lenta", "La primera", "La última"],
+            correct: 1,
+            exp: "La etapa más lenta controla la velocidad global."
+        }, {
+            q: "¿Cuál de estos ácidos se descompone por cinética de primer orden?",
+            options: ["HCl", "H₂SO₄", "N₂O₅", "NaOH"],
+            correct: 2,
+            exp: "El N₂O₅ se descompone en NO₂ y O₂ con cinética de primer orden."
+        }, {
+            q: "Un catalizador aumenta la velocidad porque:",
+            options: ["Aumenta la concentración de reactivos", "Proporciona una ruta con menor Ea", "Aumenta la temperatura", "Disminuye el volumen"],
+            correct: 1,
+            exp: "El catalizador disminuye la energía de activación, acelerando la reacción."
+        }, {
+            q: "La vida media de un fármaco que se degrada por primer orden es de 2 horas. ¿Cuánto tiempo tarda en reducirse al 25% de su concentración inicial?",
+            options: ["2 h", "4 h", "6 h", "8 h"],
+            correct: 1,
+            exp: "Cada vida media reduce a la mitad: 50% (2 h), 25% (4 h)."
+        }, {
+            q: "¿Cuál de las siguientes afirmaciones sobre los catalizadores es correcta?",
+            options: ["Se consumen en la reacción", "Cambian el equilibrio", "No afectan la energía de activación", "No se consumen en la reacción"],
+            correct: 3,
+            exp: "Los catalizadores no se consumen; solo aceleran la reacción."
+        }, {
+            q: "En la ecuación de Arrhenius, $R$ es:",
+            options: ["Constante de los gases", "Constante de equilibrio", "Factor de frecuencia", "Energía de activación"],
+            correct: 0,
+            exp: "$R = 8.314 \\, J/(mol\\cdot K)$."
+        }, {
+            q: "Una reacción de orden cero tiene una ley de velocidad:",
+            options: ["$v = k$", "$v = k[A]$", "$v = k[A]^2$", "$v = k[A][B]$"],
+            correct: 0,
+            exp: "La velocidad es independiente de la concentración."
+        }, {
+            q: "El método de las velocidades iniciales se usa para:",
+            options: ["Determinar el orden de reacción", "Medir la temperatura", "Calcular la vida media", "Encontrar el catalizador"],
+            correct: 0,
+            exp: "Permite encontrar los exponentes en la ley de velocidad a partir de datos experimentales."
+        }, {
+            q: "En una reacción de primer orden, la gráfica de $[A]$ vs $t$ es:",
+            options: ["Lineal decreciente", "Exponencial decreciente", "Parabólica", "Lineal creciente"],
+            correct: 1,
+            exp: "$[A] = [A]_0 e^{-kt}$, una curva exponencial decreciente."
+        }, {
+            q: "¿Cuál es la función de un catalizador heterogéneo como el Pt en la hidrogenación?",
+            options: ["Disolver los reactivos", "Adsorber reactivos y romper enlaces", "Aumentar la presión", "Disminuir la temperatura"],
+            correct: 1,
+            exp: "El Pt adsorbe H₂ y etileno, facilitando la ruptura de enlaces."
+        }, {
+            q: "La energía de activación para una reacción es 50 kJ/mol. Si se duplica la temperatura (en K), ¿$k$ aumenta o disminuye?",
+            options: ["Aumenta", "Disminuye", "No cambia", "Depende de A"],
+            correct: 0,
+            exp: "Al aumentar T, el término exponencial $-E_a/(RT)$ se hace menos negativo, aumentando $k$."
+        }, {
+            q: "En un mecanismo, los intermediarios:",
+            options: ["Aparecen en la ecuación global", "Son catalizadores", "No aparecen en la ecuación global", "Son productos finales"],
+            correct: 2,
+            exp: "Los intermediarios no aparecen en la ecuación global, solo en los pasos elementales."
+        }, {
+            q: "Si la concentración de un reactivo se duplica y la velocidad se duplica, el orden con respecto a ese reactivo es:",
+            options: ["0", "1", "2", "3"],
+            correct: 1,
+            exp: "Velocidad ∝ [A]^n. Si al duplicar [A] la velocidad se duplica, n=1."
+        }, {
+            q: "La constante de velocidad $k$ en la ecuación de Arrhenius depende de:",
+            options: ["Solo la temperatura", "Solo la Ea", "Temperatura y Ea", "Concentración"],
+            correct: 2,
+            exp: "$k$ depende de T y Ea, además de A."
+        }];
+
+        let quizIdx = 0;
+        let quizCorrect = 0;
+        let quizIncorrect = 0;
+        let currentQuizQuestions = []; // 10 preguntas seleccionadas
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function selectRandomQuestions(n = 10) {
+            const shuffled = shuffleArray([...questionBank]);
+            return shuffled.slice(0, n);
+        }
+
+        function loadQuiz() {
+            const container = document.getElementById('quiz-content');
+            if (!container) return;
+
+            // Si no hay preguntas cargadas, seleccionar 10 al azar
+            if (currentQuizQuestions.length === 0) {
+                currentQuizQuestions = selectRandomQuestions(10);
+                quizIdx = 0;
+                quizCorrect = 0;
+                quizIncorrect = 0;
+                document.getElementById('quiz-stats').style.display = 'none';
+                document.getElementById('resetQuizBtn').style.display = 'none';
+                document.getElementById('quiz-stats-inline').style.display = 'flex';
+                document.getElementById('quiz-score').innerText = '0';
+            }
+
+            document.getElementById('quiz-current').innerText = Math.min(quizIdx + 1, currentQuizQuestions.length);
+            document.getElementById('quiz-total').innerText = currentQuizQuestions.length;
+            document.getElementById('quiz-score').innerText = quizCorrect * 10; // 10 pts por pregunta
+
+            if (quizIdx >= currentQuizQuestions.length) {
+                document.getElementById('quiz-stats-inline').style.display = 'none';
+                document.getElementById('quiz-stats').style.display = 'flex';
+                document.getElementById('resetQuizBtn').style.display = 'inline-block';
+                document.getElementById('quiz-correct').innerText = quizCorrect;
+                document.getElementById('quiz-incorrect').innerText = quizIncorrect;
+                document.getElementById('quiz-final-score').innerText = quizCorrect * 10;
+                container.innerHTML =
+                "<h3 style='color:#D97706; text-align:center;'>¡Quiz completado!</h3><p style='text-align:center;'>Haz clic en 'Nuevas preguntas' para otro intento.</p>";
+                return;
+            }
+
+            const q = currentQuizQuestions[quizIdx];
+            let html =
+            `<div class="quiz-question-card"><div class="quiz-question">${quizIdx+1}. ${q.q}</div><div class="quiz-options">`;
+            q.options.forEach((opt, i) => {
+                html += `<button class="quiz-option" type="button" data-optindex="${i}">${opt}</button>`;
+            });
+            html += `</div><div class="quiz-explanation" id="quiz-exp-${quizIdx}">${q.exp}</div></div>`;
+            container.innerHTML = html;
+            document.getElementById('quiz-bar').style.width = ((quizIdx) / currentQuizQuestions.length * 100) + '%';
+
+            container.querySelectorAll('.quiz-option').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    checkQuiz(parseInt(this.dataset.optindex), q.correct, this);
+                });
+            });
+        }
+
+        function checkQuiz(selected, correct, btn) {
+            const parent = btn.closest('.quiz-question-card');
+            const opts = parent.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.disabled = true);
+
+            if (selected === correct) {
+                btn.classList.add('correct');
+                quizCorrect++;
+            } else {
+                btn.classList.add('incorrect');
+                opts[correct].classList.add('correct');
+                quizIncorrect++;
+            }
+            document.getElementById(`quiz-exp-${quizIdx}`).style.display = 'block';
+            quizIdx++;
+            setTimeout(loadQuiz, 2000);
+        }
+
+        function resetQuiz() {
+            // Seleccionar nuevas preguntas al azar
+            currentQuizQuestions = selectRandomQuestions(10);
+            quizIdx = 0;
+            quizCorrect = 0;
+            quizIncorrect = 0;
+            document.getElementById('quiz-stats').style.display = 'none';
+            document.getElementById('resetQuizBtn').style.display = 'none';
+            document.getElementById('quiz-stats-inline').style.display = 'flex';
+            document.getElementById('quiz-score').innerText = '0';
+            loadQuiz();
+        }
+
+        // ======================== INICIALIZACIÓN ========================
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Navegación principal
+            document.querySelectorAll('.nav-btn[data-section]').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const sectionId = this.dataset.section;
+                    showSection(sectionId);
+                    if (sectionId === 'quiz') {
+                        // Reiniciar quiz al entrar a la sección solo si no hay preguntas cargadas
+                        if (currentQuizQuestions.length === 0) {
+                            currentQuizQuestions = selectRandomQuestions(10);
+                            quizIdx = 0;
+                            quizCorrect = 0;
+                            quizIncorrect = 0;
+                            document.getElementById('quiz-stats').style.display = 'none';
+                            document.getElementById('resetQuizBtn').style.display = 'none';
+                            document.getElementById('quiz-stats-inline').style.display = 'flex';
+                            document.getElementById('quiz-score').innerText = '0';
+                            loadQuiz();
+                        } else {
+                            loadQuiz();
+                        }
+                    }
+                });
+            });
+
+            // Tabs de Conceptos
+            document.getElementById('conceptos-tabs').querySelectorAll('.tab[data-tab]').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    showTab('conceptos-tabs', this.dataset.tab);
+                });
+            });
+
+            // Tabs de Herramientas
+            document.getElementById('herramientas-tabs').querySelectorAll('.tab[data-tab]').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    showTab('herramientas-tabs', this.dataset.tab);
+                });
+            });
+
+            // Flashcards
+            document.getElementById('fc-card').addEventListener('click', flipCard);
+            document.getElementById('btn-fc-good').addEventListener('click', function() { gradeCard(true); });
+            document.getElementById('btn-fc-bad').addEventListener('click', function() { gradeCard(false); });
+            document.getElementById('resetFlashcardsBtn').addEventListener('click', resetFlashcards);
+
+            // Calculadoras
+            document.getElementById('calcArrheniusBtn').addEventListener('click', calcularArrhenius);
+            document.getElementById('calcVidaBtn').addEventListener('click', calcularVidaMedia);
+
+            // Quiz
+            document.getElementById('resetQuizBtn').addEventListener('click', resetQuiz);
+
+            // Inicializar flashcards
+            updateFcStats();
+            loadCard();
+
+            // Inicializar tabs visibles
+            showTab('conceptos-tabs', 'sub-orden');
+            showTab('herramientas-tabs', 'calc-arrhenius');
+
+            // Si el usuario entra a la sección quiz por primera vez, cargar preguntas
+            // Pero no forzar aquí; se cargará al hacer clic en la pestaña.
+        });
+    </script>
+</body>
+</html>
